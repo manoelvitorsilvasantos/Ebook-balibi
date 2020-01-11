@@ -28,7 +28,7 @@ public class ConexaoSQLite {
 
         try {
 
-            String url = "jdbc:sqlite:base/biblia.db";
+            String url = "jdbc:sqlite:db/biblia.db";
 
             this.conexao = DriverManager.getConnection(url);
 
@@ -88,6 +88,29 @@ public class ConexaoSQLite {
 
     public Connection getConexao() {
         return this.conexao;
+    }
+    
+    public void query(String sql)
+    {
+        boolean conectou = false;
+
+        try {
+            conectou = this.conectar();
+            
+            Statement stmt = this.criarStatement();
+            
+            stmt.execute(sql);
+            
+            System.out.println("Tabela pessoa criada!");
+
+        } catch (SQLException e) {
+            //mensagem de erro na criação da tabela
+        } finally {
+            if(conectou){
+                this.desconectar();
+            }
+        }
+        
     }
 
 }
