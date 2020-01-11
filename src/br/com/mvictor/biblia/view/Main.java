@@ -25,23 +25,22 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        Conexao conexaoSQLite = new Conexao();
+        Conexao conexao = new Conexao();
 
         ResultSet resultSet = null;
         Statement statement = null;
 
-        conexaoSQLite.conectar();
+        conexao.conectar();
 
         String query = "SELECT * FROM verses;";
 
-        statement = conexaoSQLite.criarStatement();
+        statement = conexao.criarStatement();
 
         try {
             resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                System.out.println(resultSet.getString("text"));
-                System.out.println("-------------");
+                System.out.println(resultSet.getInt("verse")+"-"+resultSet.getString("text"));
 
             }
         } catch (SQLException e) {
@@ -50,7 +49,7 @@ public class Main {
             try {
                 resultSet.close();
                 statement.close();
-                conexaoSQLite.desconectar();
+                conexao.desconectar();
             } catch (SQLException ex) {
                 System.out.println("Erro misterioso de fechamentos");
             }
