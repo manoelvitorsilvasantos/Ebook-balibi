@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package conexoes;
+package br.com.mvictor.biblia.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
