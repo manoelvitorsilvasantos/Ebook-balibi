@@ -5,7 +5,8 @@
  */
 package br.com.mvictor.biblia.view;
 
-import conexoes.ConexaoSQLite;
+
+import br.com.mvictor.biblia.dao.Conexao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +25,7 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        ConexaoSQLite conexaoSQLite = new ConexaoSQLite();
+        Conexao conexaoSQLite = new Conexao();
 
         ResultSet resultSet = null;
         Statement statement = null;

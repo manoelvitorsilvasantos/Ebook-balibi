@@ -15,7 +15,7 @@ import java.sql.Statement;
  *
  * @author bruno
  */
-public class ConexaoSQLite {
+public class Conexao {
 
     private Connection conexao;
 

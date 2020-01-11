@@ -5,7 +5,8 @@
  */
 package br.com.mvictor.biblia.view;
 
-import conexoes.ConexaoSQLite;
+
+import br.com.mvictor.biblia.dao.Conexao;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -15,9 +16,9 @@ import java.sql.Statement;
  */
 public class CriarBancoSQLite {
 
-    private final ConexaoSQLite conexaoSQLite;
+    private final Conexao conexaoSQLite;
 
-    public CriarBancoSQLite(ConexaoSQLite pConexaoSQLite) {
+    public CriarBancoSQLite(Conexao pConexaoSQLite) {
         this.conexaoSQLite = pConexaoSQLite;
     }
 
