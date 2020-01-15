@@ -5,14 +5,18 @@
  */
 package br.com.mvictor.biblia.view;
 
+
 import br.com.mvictor.biblia.dao.Conexao;
+import br.com.mvictor.biblia.modelo.Livro;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
+import javax.swing.event.ListSelectionListener;
+
+
 
 /**
  *
@@ -20,41 +24,28 @@ import javax.swing.JList;
  */
 public class Tela extends javax.swing.JFrame {
     
-    private final DefaultListModel modelo;
-    
-    /**
-     * Creates new form Tela
-     */
+    private DefaultListModel modelo = new DefaultListModel();
+  
     public Tela() {
-        this.modelo = new DefaultListModel();
-        this.lista.setModel(modelo);
-        
         
         Conexao conexao = new Conexao();
-        
+
         ResultSet resultSet = null;
         Statement statement = null;
 
         conexao.conectar();
 
-        String book = "SELECT * FROM books;";
-        
-        
+        String query = "SELECT *FROM books;";
 
         statement = conexao.criarStatement();
 
         try {
-            resultSet = statement.executeQuery(book);
+            resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                
-                String lista = resultSet.getString("text");
-                System.out.println(lista);
+                modelo.addElement(resultSet.getString("long_name"));
+
             }
-            
-            
-           
-           
         } catch (SQLException e) {
             System.out.println("Erro misteriosos");
         } finally {
@@ -66,8 +57,8 @@ public class Tela extends javax.swing.JFrame {
                 System.out.println("Erro misterioso de fechamentos");
             }
         }
-        
         initComponents();
+        lista.setModel(modelo);
     }
     
     
@@ -84,17 +75,46 @@ public class Tela extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         lista = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
+        livros = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menu = new javax.swing.JMenu();
+        menuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
+        lista.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                listaFocusGained(evt);
+            }
+        });
+        lista.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                listaMouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(lista);
 
-        jLabel1.setText("Selecione o Livro");
+        jLabel1.setText("Biblia Sagrada");
 
-        jMenu1.setText("Livro");
-        jMenuBar1.add(jMenu1);
+        livros.setText("Abrir Livro");
+        livros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                livrosActionPerformed(evt);
+            }
+        });
+
+        menu.setText("Sobre");
+
+        menuItem.setText("sobre");
+        menuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemActionPerformed(evt);
+            }
+        });
+        menu.add(menuItem);
+
+        jMenuBar1.add(menu);
 
         setJMenuBar(jMenuBar1);
 
@@ -106,10 +126,14 @@ public class Tela extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 214, Short.MAX_VALUE)
+                .addComponent(livros, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(175, 175, 175))
             .addGroup(layout.createSequentialGroup()
                 .addGap(202, 202, 202)
-                .addComponent(jLabel1)
-                .addContainerGap(253, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,11 +142,40 @@ public class Tela extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(90, 90, 90))
+                .addGap(29, 29, 29)
+                .addComponent(livros)
+                .addGap(36, 36, 36))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void livrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_livrosActionPerformed
+        // TODO add your handling code here:
+        String item = lista.getSelectedValue();
+        Livro livro = new Livro();
+        livro.setLivroNome(item);
+    
+        TelaCapitulo capitulo = new TelaCapitulo();
+        capitulo.CopiarLivro(livro);
+        capitulo.setVisible(true);
+        this.setVisible(false);
+        this.dispose();
+          
+    }//GEN-LAST:event_livrosActionPerformed
+
+    private void menuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuItemActionPerformed
+
+    private void listaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_listaFocusGained
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_listaFocusGained
+
+    private void listaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaMouseReleased
+        
+    }//GEN-LAST:event_listaMouseReleased
 
     /**
      * @param args the command line arguments
@@ -161,9 +214,11 @@ public class Tela extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> lista;
+    private javax.swing.JButton livros;
+    private javax.swing.JMenu menu;
+    private javax.swing.JMenuItem menuItem;
     // End of variables declaration//GEN-END:variables
 }

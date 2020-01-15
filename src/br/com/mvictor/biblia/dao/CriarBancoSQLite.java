@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.mvictor.biblia.view;
+package br.com.mvictor.biblia.dao;
 
 
 import br.com.mvictor.biblia.dao.Conexao;
