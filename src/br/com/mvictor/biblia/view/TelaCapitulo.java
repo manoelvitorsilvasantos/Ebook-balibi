@@ -7,64 +7,76 @@ package br.com.mvictor.biblia.view;
 
 import br.com.mvictor.biblia.dao.Conexao;
 import br.com.mvictor.biblia.modelo.Livro;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author mvictor
  */
-public class TelaCapitulo extends javax.swing.JFrame {
+public final class TelaCapitulo extends javax.swing.JFrame {
 
     private DefaultListModel modelo;
-    private String txt = null;
+    private String nome;
     
-    public void CopiarLivro(Livro livro)
+    
+    
+    
+    public void CopiarLivro(final String livro)
     {
-        lblLivro.setText(livro.getLivroNome());
-        txt = livro.getLivroNome();
+        lblLivro.setText(livro);
+        modelo = new DefaultListModel();
+        Conexao conexao = new Conexao();
+        
+        
+        conexao.conectar();
+        
+        
+        ResultSet resultSet = null;
+        PreparedStatement pr = null;
+        
+        String sql = "SELECT DISTINCT chapter FROM verses  JOIN books ON books.book_number = verses.book_number WHERE books.long_name = ?";
+
+        try {
+           
+            this.nome = livro;
+            pr  = conexao.criarPreparedStatement(sql);
+            pr.setString(1, nome);
+            
+            resultSet = pr.executeQuery();
+            
+            while (resultSet.next()) {
+               modelo.addElement("Capítulo "+resultSet.getInt("chapter"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro misteriosos");
+        } 
+        
+        finally {
+            try {
+                resultSet.close();
+                pr.close();
+                conexao.desconectar();
+            } catch (SQLException ex) {
+                System.out.println("Erro misterioso de fechamentos");
+            }
+        }
+        lista.setModel(modelo);
     }
     
     /**
      * Creates new form Livro
      */
     public TelaCapitulo() {
-        modelo = new DefaultListModel();
-        Conexao conexao = new Conexao();
+        this.nome = null;
         
-        ResultSet resultSet = null;
-        Statement statement = null;
-        String texto = "Capítulo";
-        conexao.conectar();
-        
-        String query;
-        query = "select *from books as livro join verses as verso on verso.book_number = livro.book_number where livro.long_name = '"+txt+"'";
-
-        statement = conexao.criarStatement();
-        
-        try {
-            resultSet = statement.executeQuery(query);
-
-            while (resultSet.next()) {
-               
-                modelo.addElement("Capítulo -> "+resultSet.getString("verse"));
-
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro misteriosos");
-        } finally {
-            try {
-                resultSet.close();
-                statement.close();
-                conexao.desconectar();
-            } catch (SQLException ex) {
-                System.out.println("Erro misterioso de fechamentos");
-            }
-        }
         initComponents();
-        lista.setModel(modelo);
+        
     }
     
 
@@ -80,6 +92,7 @@ public class TelaCapitulo extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         lista = new javax.swing.JList<>();
         lblLivro = new javax.swing.JLabel();
+        btnAbrir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,29 +100,54 @@ public class TelaCapitulo extends javax.swing.JFrame {
 
         lblLivro.setText("Livro");
 
+        btnAbrir.setText("Abrir");
+        btnAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbrirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                    .addComponent(lblLivro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(133, 133, 133)
+                        .addComponent(btnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(457, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblLivro, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+                .addComponent(lblLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addComponent(btnAbrir)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
+        // TODO add your handling code here:
+        //pega o valor do item selecionado da lista.
+        int valor = lista.getSelectedIndices().length;
+        TelaLivro livro = new TelaLivro();
+        livro.copiarDados(nome, valor);
+        livro.setVisible(true);
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_btnAbrirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -140,18 +178,25 @@ public class TelaCapitulo extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TelaCapitulo().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new TelaCapitulo().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAbrir;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblLivro;
     private javax.swing.JList<String> lista;
     // End of variables declaration//GEN-END:variables
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     
 }

@@ -5,8 +5,6 @@
  */
 package br.com.mvictor.biblia.dao;
 
-
-import br.com.mvictor.biblia.dao.Conexao;
 import java.sql.SQLException;
 import java.sql.Statement;
 

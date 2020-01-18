@@ -8,13 +8,14 @@ package br.com.mvictor.biblia.view;
 
 import br.com.mvictor.biblia.dao.Conexao;
 import br.com.mvictor.biblia.modelo.Livro;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.event.ListSelectionListener;
+
 
 
 
@@ -22,7 +23,7 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author mvictor
  */
-public class Tela extends javax.swing.JFrame {
+public final class Tela extends javax.swing.JFrame {
     
     private DefaultListModel modelo = new DefaultListModel();
   
@@ -35,10 +36,13 @@ public class Tela extends javax.swing.JFrame {
 
         conexao.conectar();
 
-        String query = "SELECT *FROM books;";
+        String query = "select *from books";
+        
 
         statement = conexao.criarStatement();
 
+        modelo.clear();
+        
         try {
             resultSet = statement.executeQuery(query);
 
@@ -59,6 +63,12 @@ public class Tela extends javax.swing.JFrame {
         }
         initComponents();
         lista.setModel(modelo);
+        lista.setFixedCellHeight(20);
+        lista.setBackground(Color.WHITE);
+        lista.setSelectionBackground(Color.YELLOW);
+        lista.setSelectionForeground(Color.BLACK);
+        
+        
     }
     
     
@@ -152,12 +162,11 @@ public class Tela extends javax.swing.JFrame {
 
     private void livrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_livrosActionPerformed
         // TODO add your handling code here:
-        String item = lista.getSelectedValue();
-        Livro livro = new Livro();
-        livro.setLivroNome(item);
-    
+        
+        //pega o valor do item selecionado da lista.
+        String item = lista.getSelectedValuesList().toString();
         TelaCapitulo capitulo = new TelaCapitulo();
-        capitulo.CopiarLivro(livro);
+        capitulo.CopiarLivro(lista.getSelectedValue());
         capitulo.setVisible(true);
         this.setVisible(false);
         this.dispose();

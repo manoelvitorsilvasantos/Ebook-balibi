@@ -78,7 +78,7 @@ public class Conexao {
      */
     public PreparedStatement criarPreparedStatement(String sql) {
         try {
-            return this.conexao.prepareStatement(sql);
+            return conexao.prepareStatement(sql);
         } catch (SQLException e) {
             return null;
         }
@@ -90,14 +90,15 @@ public class Conexao {
         return this.conexao;
     }
     
+    
     public void query(String sql)
     {
         boolean conectou = false;
 
         try {
-            conectou = this.conectar();
+            conectou = conectar();
             
-            Statement stmt = this.criarStatement();
+            Statement stmt = criarStatement();
             
             stmt.execute(sql);
             

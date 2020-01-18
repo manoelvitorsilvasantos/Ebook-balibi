@@ -11,41 +11,16 @@ package br.com.mvictor.biblia.modelo;
  */
 public class Livro {
     
-    private String texto;
-    private int versiculo;
-    private int capitulo;
-    private String livroNome;
-
-    public String getTexto() {
-        return texto;
+    private String nome;
+   
+    public void setNome(String nome)
+    {
+        this.nome = nome;
     }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
 
-    public int getVersiculo() {
-        return versiculo;
-    }
-
-    public void setVersiculo(int versiculo) {
-        this.versiculo = versiculo;
-    }
-
-    public int getCapitulo() {
-        return capitulo;
-    }
-
-    public void setCapitulo(int capitulo) {
-        this.capitulo = capitulo;
-    }
-
-    public String getLivroNome() {
-        return livroNome;
-    }
-
-    public void setLivroNome(String livroNome) {
-        this.livroNome = livroNome;
+    public String getNome() {
+        return this.nome;
     }
     
 }
