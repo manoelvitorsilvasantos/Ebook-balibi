@@ -7,6 +7,7 @@ package br.com.mvictor.biblia.view;
 
 import br.com.mvictor.biblia.dao.Conexao;
 import br.com.mvictor.biblia.modelo.Livro;
+import br.com.mvictor.biblia.service.Verificador;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,9 +23,6 @@ public final class TelaCapitulo extends javax.swing.JFrame {
 
     private DefaultListModel modelo;
     private String nome;
-    
-    
-    
     
     public void CopiarLivro(final String livro)
     {
@@ -50,7 +48,7 @@ public final class TelaCapitulo extends javax.swing.JFrame {
             resultSet = pr.executeQuery();
             
             while (resultSet.next()) {
-               modelo.addElement("Capítulo "+resultSet.getInt("chapter"));
+               modelo.addElement(resultSet.getInt("chapter"));
             }
 
         } catch (SQLException e) {
@@ -74,7 +72,7 @@ public final class TelaCapitulo extends javax.swing.JFrame {
      */
     public TelaCapitulo() {
         this.nome = null;
-        
+        setExtendedState(this.MAXIMIZED_BOTH);
         initComponents();
         
     }
@@ -96,6 +94,7 @@ public final class TelaCapitulo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        lista.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
         jScrollPane1.setViewportView(lista);
 
         lblLivro.setText("Livro");
@@ -141,12 +140,22 @@ public final class TelaCapitulo extends javax.swing.JFrame {
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
         // TODO add your handling code here:
         //pega o valor do item selecionado da lista.
-        int valor = lista.getSelectedIndices().length;
-        TelaLivro livro = new TelaLivro();
-        livro.copiarDados(nome, valor);
-        livro.setVisible(true);
-        this.setVisible(false);
-        this.dispose();
+        
+        if(Verificador.isEmptySelect(lista))
+        {
+            JOptionPane.showMessageDialog(null, "Porfavor, Selecione um capítulo da Bíblia!");
+        }
+        else
+        {
+            TelaLivro livro = new TelaLivro();
+            //JOptionPane.showMessageDialog(null, this.lista.getSelectedIndex()+1);
+            livro.copiarDados(nome, this.lista.getSelectedIndex()+1);
+            livro.setVisible(true);
+            this.setVisible(false);
+            this.dispose();
+        }
+       
+        
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     /**
