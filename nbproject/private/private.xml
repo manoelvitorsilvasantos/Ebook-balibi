@@ -5,10 +5,7 @@
         <group>
             <file>file:/home/mvictor/NetBeansProjects/Biblia/src/br/com/mvictor/biblia/view/TelaLivro.java</file>
             <file>file:/home/mvictor/NetBeansProjects/Biblia/src/br/com/mvictor/biblia/view/TelaCapitulo.java</file>
-            <file>file:/home/mvictor/NetBeansProjects/Biblia/src/br/com/mvictor/biblia/dao/Conexao.java</file>
-            <file>file:/home/mvictor/NetBeansProjects/Biblia/src/br/com/mvictor/biblia/modelo/Livro.java</file>
             <file>file:/home/mvictor/NetBeansProjects/Biblia/src/br/com/mvictor/biblia/view/Tela.java</file>
-            <file>file:/home/mvictor/NetBeansProjects/Biblia/src/br/com/mvictor/biblia/dao/CriarBancoSQLite.java</file>
         </group>
     </open-files>
 </project-private>

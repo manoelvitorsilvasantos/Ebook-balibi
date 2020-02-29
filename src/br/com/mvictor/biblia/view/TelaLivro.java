@@ -236,7 +236,12 @@ public class TelaLivro extends javax.swing.JFrame {
 
         menuSobre.setText("Sobre");
 
-        menuItemSobre.setText("jMenuItem2");
+        menuItemSobre.setText("sobre");
+        menuItemSobre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemSobreActionPerformed(evt);
+            }
+        });
         menuSobre.add(menuItemSobre);
 
         jMenuBar1.add(menuSobre);
@@ -278,10 +283,11 @@ public class TelaLivro extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBack)
-                    .addComponent(btnNext)
-                    .addComponent(btnChapter))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnChapter)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnBack)
+                        .addComponent(btnNext)))
                 .addGap(50, 50, 50))
         );
 
@@ -337,6 +343,15 @@ public class TelaLivro extends javax.swing.JFrame {
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void menuItemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSobreActionPerformed
+        // TODO add your handling code here:
+        TelaSobre sobre = new TelaSobre();
+        sobre.setVisible(true);
+        this.setDefaultCloseOperation(Tela.EXIT_ON_CLOSE);
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_menuItemSobreActionPerformed
 
     /**
      * @param args the command line arguments

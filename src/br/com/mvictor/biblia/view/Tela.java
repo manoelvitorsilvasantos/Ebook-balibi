@@ -7,16 +7,11 @@ package br.com.mvictor.biblia.view;
 
 
 import br.com.mvictor.biblia.dao.Conexao;
-import br.com.mvictor.biblia.modelo.Livro;
 import br.com.mvictor.biblia.service.Verificador;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -209,6 +204,11 @@ public final class Tela extends javax.swing.JFrame {
 
     private void menuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemActionPerformed
         // TODO add your handling code here:
+        TelaSobre sobre = new TelaSobre();
+        sobre.setVisible(true);
+        this.setDefaultCloseOperation(Tela.EXIT_ON_CLOSE);
+        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_menuItemActionPerformed
 
     private void listaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_listaFocusGained

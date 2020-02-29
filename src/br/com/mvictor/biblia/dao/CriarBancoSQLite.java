@@ -20,6 +20,8 @@ public class CriarBancoSQLite {
         this.conexaoSQLite = pConexaoSQLite;
     }
 
+    
+    
     public void criarTabelaPessoa() {
 
         String sql = "CREATE TABLE IF NOT EXISTS tbl_pessoa"
