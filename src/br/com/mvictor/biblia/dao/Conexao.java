@@ -28,7 +28,7 @@ public class Conexao {
 
         try {
 
-            String url = "jdbc:sqlite:db/biblia.db";
+            String url = "jdbc:sqlite:db/jfa-biblia.db";
 
             this.conexao = DriverManager.getConnection(url);
 
